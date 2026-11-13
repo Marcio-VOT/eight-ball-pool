@@ -302,6 +302,12 @@ test.describe('8 Ball Pool 2.5D — Real Browser Gameplay & Multiplayer E2E', ()
 
           const gx = b.x - pux * D;
           const gz = b.z - puz * D;
+          const ghostInside = Math.abs(gx) <= 1.088 && Math.abs(gz) <= 0.528;
+          const openPocketAngle =
+            p.x === 0
+              ? Math.abs(puz) > 0.55
+              : Math.abs(pux) > 0.36 && Math.abs(puz) > 0.36;
+
           const cx = gx - cue.x;
           const cz = gz - cue.z;
           const cLen = Math.hypot(cx, cz) || 1;
@@ -313,7 +319,9 @@ test.describe('8 Ball Pool 2.5D — Real Browser Gameplay & Multiplayer E2E', ()
           if (!isPathClear(cue.x, cue.z, gx, gz, 0, b.id)) continue;
           if (!isPathClear(b.x, b.z, p.x, p.z, b.id, 0)) continue;
 
-          const score = cutCos * 3 - (pLen + cLen) * 0.4;
+          const anglePenalty =
+            (ghostInside && openPocketAngle ? 0 : -100) + (cutCos < 0.58 ? -2 : 0);
+          const score = cutCos * 3 - (pLen + cLen) * 0.4 + anglePenalty;
           if (!best || score > best.score) {
             best = {
               score,
@@ -343,8 +351,8 @@ test.describe('8 Ball Pool 2.5D — Real Browser Gameplay & Multiplayer E2E', ()
 
       await page.mouse.down();
       await page.mouse.move(
-        shotPlan.ghostScreen.x - sux * 125,
-        shotPlan.ghostScreen.y - suy * 125,
+        shotPlan.ghostScreen.x - sux * 150,
+        shotPlan.ghostScreen.y - suy * 150,
         { steps: 8 }
       );
       await page.mouse.up();

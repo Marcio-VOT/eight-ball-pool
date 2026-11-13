@@ -2,6 +2,9 @@
   "name": "eight-ball-pool",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "tsx server.ts",
     "build": "next build",
@@ -15,6 +18,7 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "three": "^0.187.0",
+    "tsx": "^4.23.15",
     "ws": "^8.23.0",
     "zod": "^4.6.7"
   },
@@ -29,7 +33,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",
-    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^5.1.0"
   }

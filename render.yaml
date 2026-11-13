@@ -1,0 +1,15 @@
+# Render Blueprint for permanent Free Tier (supports HTTP + WebSockets /ws)
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: eight-ball-pool-25d
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
