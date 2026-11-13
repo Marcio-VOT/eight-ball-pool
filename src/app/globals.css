@@ -1,26 +1,172 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --in-oklab: ;
+  --room-bg: #0e0805;
+  --room-glow: #2a180d;
+  --wood-950: #120b06;
+  --wood-900: #1d120b;
+  --wood-850: #26170e;
+  --wood-800: #332014;
+  --leather-900: #170f0a;
+  --brass-600: #9a6e28;
+  --brass-500: #c6953e;
+  --brass-400: #dfb25e;
+  --brass-border: rgba(198, 149, 62, 0.34);
+  --wood-border: rgba(138, 95, 56, 0.36);
+  --parchment-100: #f3e8d2;
+  --parchment-200: #dfd0b2;
+  --parchment-300: #baa482;
+  --baize-700: #154e35;
+  --baize-500: #288057;
+  --copper-600: #8f3527;
+  --copper-400: #e57965;
+
+  color-scheme: dark;
+  accent-color: var(--brass-500);
+  scrollbar-color: var(--brass-600) var(--wood-950);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@supports (linear-gradient(in oklab, white, black)) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --in-oklab: in oklab;
   }
 }
 
+@theme inline {
+  --color-background: var(--room-bg);
+  --color-foreground: var(--parchment-100);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--room-bg);
+  color: var(--parchment-100);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+}
+
+::selection {
+  background-color: var(--brass-500);
+  color: var(--wood-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass-400);
+  outline-offset: 2px;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  text-wrap: balance;
+}
+
+.rustic-room-bg {
+  background-color: var(--room-bg);
+  background-image:
+    radial-gradient(ellipse 72% 48% at 50% 8%, rgba(182, 114, 46, 0.16), transparent 72%),
+    radial-gradient(ellipse 65% 55% at 50% 45%, rgba(21, 78, 53, 0.15), transparent 75%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 224, 178, 0.015) 0 1px,
+      transparent 1px 6.5rem
+    );
+}
+
+.wood-panel {
+  background: linear-gradient(180deg var(--in-oklab), var(--wood-850), var(--wood-900));
+  border: 1px solid var(--brass-border);
+  box-shadow:
+    inset 0 1px 0 rgba(243, 214, 162, 0.11),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+    0 14px 36px rgba(0, 0, 0, 0.52);
+}
+
+.leather-inlay {
+  background: linear-gradient(180deg var(--in-oklab), var(--leather-900), #120b07);
+  border: 1px solid var(--wood-border);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(243, 214, 162, 0.04);
+}
+
+.brass-btn {
+  background: linear-gradient(180deg var(--in-oklab), var(--brass-400), var(--brass-500));
+  color: #180f06;
+  border: 1px solid rgba(255, 232, 180, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 214, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: filter 150ms ease, transform 120ms ease;
+}
+
+.brass-btn:hover:not(:disabled) {
+  filter: brightness(1.07);
+}
+
+.brass-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.brass-btn:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.wood-btn {
+  background: linear-gradient(180deg var(--in-oklab), var(--wood-800), var(--wood-900));
+  color: var(--parchment-100);
+  border: 1px solid var(--brass-border);
+  box-shadow:
+    inset 0 1px 0 rgba(243, 214, 162, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.35);
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.wood-btn:hover:not(:disabled) {
+  border-color: var(--brass-400);
+  background: linear-gradient(180deg var(--in-oklab), #3e2719, var(--wood-850));
+}
+
+/* Mandatory dialog scroll-chaining containment per modern-web-guidance */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(10, 6, 3, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+/* Post-interaction form validation styling (exclude sliders) */
+input:not([type="range"]):user-invalid {
+  border-color: var(--copper-400);
+  background-color: rgba(127, 29, 29, 0.22);
+}
+
+input:not([type="range"]):user-valid {
+  border-color: rgba(110, 231, 183, 0.55);
+}
+
+@media (forced-colors: active) {
+  .wood-panel,
+  .leather-inlay,
+  .wood-btn {
+    background: Canvas;
+    color: CanvasText;
+    border: 1px solid ButtonText;
+    box-shadow: none;
+  }
+
+  .brass-btn {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 2px solid ButtonText;
+    box-shadow: none;
+  }
 }

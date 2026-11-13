@@ -3,24 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "tsx server.ts",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "tsx server.ts --prod",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:e2e": "node -e \"require('fs').rmSync('.next/dev',{recursive:true,force:true})\" && playwright test"
   },
   "dependencies": {
     "next": "16.4.6",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "three": "^0.187.0",
+    "ws": "^8.23.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
     "@tailwindcss/turbopack": "4.3.3",
-    "@types/node": "^20",
+    "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.187.0",
+    "@types/ws": "^8.18.2",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",
-    "typescript": "^5"
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.1.0"
   }
 }
